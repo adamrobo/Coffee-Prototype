@@ -31,7 +31,8 @@ package
 		override public function update():void
 		{
 			super.update();
-			_scoreText.text = _player.score.toString();	
+			_scoreText.text = _player.scoreGrade;
+			_fillLine.y = _player.fillLineYPosition; // set fill line to new position
 		}
 		
 	}

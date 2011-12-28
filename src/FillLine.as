@@ -1,7 +1,7 @@
 package
 {
 	import flash.display.BitmapData;
-
+	
 	import net.flashpunk.Entity;
 	import net.flashpunk.Graphic;
 	import net.flashpunk.Mask;
@@ -17,12 +17,9 @@ package
 			fillLineImage.color = 0xFFFFFF;
 			graphic = fillLineImage;
 			setHitbox(240,1);
-			
-			y = 100;
-			
+						
 			type="Line"
 
-			
 			super(x, y, graphic, mask);
 		}
 	}
