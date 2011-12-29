@@ -23,8 +23,7 @@ package
 			_fillLine = new FillLine();
 			add(_fillLine);
 			
-			addGraphic( new Text( "Score:", 70, 10 ) );
-			_scoreText = new Text( "0", 130, 10, 200 );
+			_scoreText = new Text( "0", 100, 10, 200 );
 			addGraphic( _scoreText );
 		}
 		

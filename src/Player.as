@@ -24,9 +24,21 @@ package
 		
 		public var fillLineYPosition:int = 100;
 		
-		[ Embed( source = 'coin.mp3' ) ] private const FillCompleteSound : Class;
+		[ Embed( source = 'S.mp3' ) ] private const SFillSound : Class;
+		[ Embed( source = 'A.mp3' ) ] private const AFillSound : Class;
+		[ Embed( source = 'B.mp3' ) ] private const BFillSound : Class;
+		[ Embed( source = 'C.mp3' ) ] private const CFillSound : Class;
+		[ Embed( source = 'D.mp3' ) ] private const DFillSound : Class;
+		[ Embed( source = 'F.mp3' ) ] private const FFillSound : Class;
+		[ Embed( source = 'fillup.mp3' ) ] private const FillUpSound : Class;
 		
-		protected var _fillSound : Sfx;
+		protected var _SfillSound : Sfx;
+		protected var _AfillSound : Sfx;
+		protected var _BfillSound : Sfx;
+		protected var _CfillSound : Sfx;
+		protected var _DfillSound : Sfx;
+		protected var _FfillSound : Sfx;
+		protected var _fillUpSound : Sfx;
 		
 		public function Player()
 		{			
@@ -37,7 +49,13 @@ package
 			
 			y = 320;
 			
-			_fillSound = new Sfx( FillCompleteSound );
+			_SfillSound = new Sfx( SFillSound );
+			_AfillSound = new Sfx( AFillSound );
+			_BfillSound = new Sfx( BFillSound );
+			_CfillSound = new Sfx( CFillSound );
+			_DfillSound = new Sfx( DFillSound );
+			_FfillSound = new Sfx( FFillSound );
+			_fillUpSound = new Sfx( FillUpSound );
 
 		}
 		
@@ -48,6 +66,7 @@ package
 			if(Input.pressed(Key.X) && fillingState == 0)
 			{
 				fillingState = 1; //filling up
+				_fillUpSound.play(); // play fill up sound
 			}
 
 			if(fillingState == 1)
@@ -69,28 +88,34 @@ package
 
 			if(fillingState == 2 && PLAYER_VSPEED == 0)
 			{
+				_fillUpSound.stop(); // stop fill up sound
 				score = y - fillLineYPosition; // Check Score
 				score = Math.abs(score); // make score positive
 				score = 100 - score // set score on typical 100 point scale
-				if(score == 100) // convert score to letter grade
+				if(score >= 98) // convert score to letter grade
 				{
-					scoreGrade = "S";
-				} else if(score >= 90) {
-					scoreGrade = "A";
-				} else if (score >= 80) {
-					scoreGrade = "B";
+					scoreGrade = "PERFECT!";
+					_SfillSound.play(); // play S fill line sound
+				} else if(score >= 87) {
+					scoreGrade = "GREAT";
+					_AfillSound.play(); // play A fill line sound
+				} else if (score >= 75) {
+					scoreGrade = "OK";
+					_BfillSound.play(); // play B fill line sound
 				}  else if (score >= 70) {
-					scoreGrade = "C";
-				}  else if ( score >= 60 ) {
-					scoreGrade = "D";
+					scoreGrade = "OK";
+					_BfillSound.play(); // play C fill line sound
+				}  else if ( score >= 40 ) {
+					scoreGrade = "BAD";
+					_DfillSound.play(); // play D fill line sound
 				} else {
-					scoreGrade = "F";
+					scoreGrade = "HORRIBLE";
+					_FfillSound.play(); // play F fill line sound
 				}
 				scoreArray.push(scoreGrade); // Store scoreGrade in array
 				
-				_fillSound.play(); // play fill line sound
 				y = 320; // Reset coffee to bottom of screen
-				fillLineYPosition = 100 + FP.rand(150); // reset fill line position
+				fillLineYPosition = 100 + FP.rand(100); // reset fill line position
 				
 				if(scoreArray.length < 5){
 					fillingState = 0; // done
