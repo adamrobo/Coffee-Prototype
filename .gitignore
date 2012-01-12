@@ -1,20 +1,7 @@
+.DS_Store
+*/.DS_Store
+*/bin-debug
+*/.actionScriptProperties
+*/.settings
+*/.project
 
-bin-debug/
-
-html-template/swfobject.js
-
-html-template/playerProductInstall.swf
-
-html-template/index.template.html
-
-html-template/history/historyFrame.html
-
-html-template/history/history.js
-
-html-template/history/history.css
-
-espresso/.actionScriptProperties
-
-espresso/.project
-
-espresso/.settings/org.eclipse.core.resources.prefs
