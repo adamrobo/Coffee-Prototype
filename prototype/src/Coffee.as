@@ -11,7 +11,7 @@ package
 		{
 			super( 240, 320 );
 			FP.screen.scale = 2;
-			FP.console.enable();
+			// FP.console.enable();
 			
 			FP.screen.color = 0x007042; //set background color
 		}
