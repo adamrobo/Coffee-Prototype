@@ -6,8 +6,8 @@ Everything in `/espresso` has been compiled with the Adobe Flex 4 SDK and the Fl
 
 ### Controls
 
-- **Fill** `Space` `Z`
-- **New Stage** `Enter` `N`
+- **Fill** 		`Space`	`Z`
+- **New Stage** `Enter`	`N`
 
 ## Prototype
 
@@ -15,4 +15,4 @@ Everything in `/prototype` has been compiled with the Adobe Flex 4 SDK and the F
 
 ### Controls
 
-- **Fill** `X`
+- **Fill** 		`X`
