@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="640" minHeight="480" width="640" height="480" pageTitle="Waveform Creator" preloaderChromeColor="#CBCBCB" addedToStage="application1_addedToStageHandler(event)" enterFrame="application1_enterFrameHandler(event)">
+
+	<fx:Script>
+		<![CDATA[
+			import flash.utils.getTimer;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
+			import mx.states.AddChild;
+			
+			import net.thegamestudio.waveforms.WaveformDisplay;
+			
+			[Bindable]
+			protected var wd_waveformDisplay:WaveformDisplay;
+			
+			protected var currentTime:Number = 0;
+			
+			protected function btn_generateWaveform_clickHandler(event:MouseEvent):void
+			{
+				wd_waveformDisplay.drawWaveforms(currentTime, s_stepSize.value);
+			}
+
+			protected function btn_deleteWaveform_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				var selectedRow:int = dg_waveformData.selectedIndex;
+				if(selectedRow >= 0)
+				{
+					wd_waveformDisplay.waves.removeItemAt(selectedRow);
+				}
+			}
+
+
+			protected function btn_addWaveform_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				wd_waveformDisplay.addWaveform(0,0,0,0);
+			}
+
+
+			protected function dg_waveformData_creationCompleteHandler(event:FlexEvent):void
+			{
+				// TODO Auto-generated method stub
+				wd_waveformDisplay = new WaveformDisplay(10,165,620,305);
+				wd_waveformDisplay.addWaveform(10,0.01,5,0);
+			}
+
+			protected function ckb_animate_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+			}
+
+
+			protected function s_waveSpeed_changeHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+			}
+
+
+			protected function tw_displayOptions_closeHandler(event:CloseEvent):void
+			{
+				// TODO Auto-generated method stub
+				showMenu(false);
+			}
+
+
+			protected function btn_options_clickHandler(event:MouseEvent):void
+			{
+				// TODO Auto-generated method stub
+				showMenu(true);
+				
+			}
+			
+			protected function showMenu(doShow:Boolean):void
+			{
+				tw_displayOptions.visible = doShow;
+				tw_displayOptions.enabled = doShow;
+				grp_mainControls.enabled = !doShow;
+			}
+
+
+			protected function application1_addedToStageHandler(event:Event):void
+			{
+				stage.addChild(wd_waveformDisplay);
+			}
+
+
+			protected function s_stepSize_changeHandler(event:Event):void
+			{
+				wd_waveformDisplay.drawWaveforms(currentTime, s_stepSize.value);
+			}
+
+
+			protected function application1_enterFrameHandler(event:Event):void
+			{
+				if(ckb_animate.selected)
+				{
+					// We should animate.
+					wd_waveformDisplay.drawWaveforms(getTimer() * s_waveSpeed.value/10000, s_stepSize.value);
+				}
+			}
+
+		]]>
+	</fx:Script>
+
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+
+	</fx:Declarations>
+	<s:Group x="10" y="10" width="620" height="135" id="grp_mainControls">
+		<mx:DataGrid x="0" y="0" editable="true" id="dg_waveformData" rowCount="4" dataProvider="{wd_waveformDisplay.waves}" creationComplete="dg_waveformData_creationCompleteHandler(event)" rowHeight="20" width="317">
+			<mx:columns>
+				<mx:DataGridColumn headerText="a" dataField="a" sortable="false" resizable="false"/>
+				<mx:DataGridColumn headerText="k" dataField="k" sortable="false" resizable="false"/>
+				<mx:DataGridColumn dataField="w" headerText="w" resizable="false" sortable="false"/>
+				<mx:DataGridColumn dataField="phi" headerText="phi" resizable="false" sortable="false"/>
+			</mx:columns>
+		</mx:DataGrid>
+		<s:Button x="0" y="114" label="+" id="btn_addWaveform" width="36" enabled="true" click="btn_addWaveform_clickHandler(event)"/>
+		<s:Button x="281" y="114" label="-" id="btn_deleteWaveform" width="36" enabled="true" click="btn_deleteWaveform_clickHandler(event)"/>
+		<s:Button x="325" y="0" label="Generate Waveform" enabled="true" id="btn_generateWaveform" click="btn_generateWaveform_clickHandler(event)" height="106" width="295"/>
+		<s:Button x="550" y="114" label="Options" id="btn_options" click="btn_options_clickHandler(event)"/>
+		
+	</s:Group>
+	<mx:HRule x="10" y="155" width="620"/>
+	<s:TitleWindow x="195" y="-1" width="250" height="148" title="Display Options" enabled="false" id="tw_displayOptions" visible="false" borderVisible="true" dropShadowVisible="true" borderColor="#363636" close="tw_displayOptions_closeHandler(event)" borderAlpha="0.4" cornerRadius="0" chromeColor="#F7F7F7">
+		<mx:Form x="14" y="10">
+			<mx:FormItem label="Wave Speed">
+				<s:HSlider id="s_waveSpeed" change="s_waveSpeed_changeHandler(event)" minimum="0" maximum="100" stepSize="1" value="5" liveDragging="true"/>
+			</mx:FormItem>
+			<mx:FormItem label="Step Size">
+				<s:HSlider id="s_stepSize" minimum="1" maximum="10" stepSize="1" value="5" change="s_stepSize_changeHandler(event)" liveDragging="true"/>
+			</mx:FormItem>
+			<mx:FormItem label="Animate">
+				<s:CheckBox id="ckb_animate" click="ckb_animate_clickHandler(event)" selected="false"/>
+			</mx:FormItem>
+		</mx:Form>
+	</s:TitleWindow>
+</s:Application>
