@@ -1,19 +1,20 @@
 package worlds
 {
+	import entities.Pour;
+	
 	import flash.display.BitmapData;
 	
+	import game.Assets;
 	import game.C;
+	import game.V;
 	
 	import net.flashpunk.Entity;
 	import net.flashpunk.FP;
-	import net.flashpunk.Graphic;
 	import net.flashpunk.World;
 	import net.flashpunk.graphics.Image;
 	import net.flashpunk.graphics.Stamp;
 	import net.flashpunk.utils.Input;
 	import net.flashpunk.utils.Key;
-	
-	
 	
 	public class CoffeeWorld extends World
 	{
@@ -50,31 +51,36 @@ package worlds
 				addGraphic(new Stamp(new BitmapData(FP.width,3,true,0xaa000000)),1,0,lastHeight - partsPerShot[i] * C.HEIGHT_SHOT - 1);
 				lastHeight -= partsPerShot[i] * C.HEIGHT_SHOT;
 			}
-			add(fillDisplay);
-			trace(fillDisplay);
+			//add(fillDisplay);
+			V.SetActivePour(Pour(add(Assets.CreatePourByID(FP.choose(Assets.DRINKS),0))));
 			super.begin();
 		}
 		
 		public override function update():void
 		{
-			if(Input.check("fill"))
+			if(V.ActivePour != null)
 			{
-				// TODO: Update our fill.
-				fillVelocity += C.A_FILL * FP.elapsed;
-			}
-			else
-			{
-				fillVelocity -= (fillVelocity * C.DAMPING_FILL);
+				if (Input.pressed("fill"))
+				{
+					// We've begun to fill our cup.
+					V.ActivePour.beginPour();
+				}
+				else if (Input.released("fill"))
+				{
+					// We've finished filling our cup.
+					V.ActivePour.endPour();
+					
+					// Now, we need to add our next Pour.
+					var newPour:Pour = Pour(add(Assets.CreatePourByID(FP.choose(Assets.DRINKS),0,V.ActivePour)));
+					V.SetActivePour(newPour);
+				}
 			}
 			
 			if(Input.pressed("next"))
 			{
 				FP.world = new CoffeeWorld();
 			}
-			
-			currentFillLevel -= fillVelocity * FP.elapsed;
-			fillDisplay.y = Math.round(currentFillLevel);
-			
+						
 			super.update();
 		}
 	}

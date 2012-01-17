@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<drinks>
+
+	<espresso>
+		<name>Espresso</name>
+		<color>4D361F</color>
+		<alpha>AA</alpha>
+		<viscosity>0.2</viscosity>
+	</espresso>
+
+	<wholeMilk>
+		<name>Whole Milk</name>
+		<color>F7F2ED</color>
+		<alpha>FF</alpha>
+		<viscosity>0.2</viscosity>
+	</wholeMilk>
+
+	<skimMilk>
+		<name>Skim Milk</name>
+		<color>F7F2ED</color>
+		<alpha>AA</alpha>
+		<viscosity>0.2</viscosity>
+	</skimMilk>
+
+</drinks>
