@@ -3,6 +3,7 @@ package
 	import flash.display.StageAlign;
 	import flash.display.StageScaleMode;
 	
+	import game.Assets;
 	import game.C;
 	
 	import net.flashpunk.Engine;
@@ -24,6 +25,10 @@ package
 			
 			// Setup our stage modes.
 			FP.stage.scaleMode = StageScaleMode.NO_SCALE;
+			
+			// Load in our Pour and Mix data from XML
+			Assets.GetPoursFromXML();
+			Assets.GetMixesFromXML();
 			
 			// Enable our debug console.
 			//FP.console.enable();

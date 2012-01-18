@@ -2,25 +2,73 @@
 
 <drinks>
 
-	<espresso>
-		<name>Espresso</name>
-		<color>4D361F</color>
-		<alpha>AA</alpha>
-		<viscosity>0.2</viscosity>
-	</espresso>
+	<mixes>
 
-	<wholeMilk>
-		<name>Whole Milk</name>
-		<color>F7F2ED</color>
-		<alpha>FF</alpha>
-		<viscosity>0.2</viscosity>
-	</wholeMilk>
+		<ristretto>
+			<name>Ristretto</name>
+			<pour shots="0.75">espresso</pour>
+		</ristretto>
 
-	<skimMilk>
-		<name>Skim Milk</name>
-		<color>F7F2ED</color>
-		<alpha>AA</alpha>
-		<viscosity>0.2</viscosity>
-	</skimMilk>
+		<single>
+			<name>Single</name>
+			<pour shots="1">espresso</pour>
+		</single>
+
+		<lungo>
+			<name>Lungo</name>
+			<pour shots="1.5">espresso</pour>
+		</lungo>
+
+		<double>
+			<name>Double</name>
+			<pour shots="2">espresso</pour>
+		</double>
+
+		<americano>
+			<name>Americano</name>
+			<pour shots="1">espresso</pour>
+			<pour shots="6">water</pour>
+		</americano>
+
+		<caffeLatte>
+			<name>Caffe Latte</name>
+			<pour shots="1">espresso</pour>
+			<pour shots="4">cream</pour>
+			<pour shots="2">foam</pour>
+		</caffeLatte>
+
+	</mixes>
+
+	<pours>
+
+		<espresso>
+			<name>Espresso</name>
+			<color>4D361F</color>
+			<alpha>AA</alpha>
+			<viscosity>0.2</viscosity>
+		</espresso>
+
+		<cream>
+			<name>Cream</name>
+			<color>F7F2ED</color>
+			<alpha>FF</alpha>
+			<viscosity>0.2</viscosity>
+		</cream>
+		
+		<foam>
+			<name>Milk Foam</name>
+			<color>F7F2ED</color>
+			<alpha>AA</alpha>
+			<viscosity>0.2</viscosity>
+		</foam>
+
+		<water>
+			<name>Water</name>
+			<color>359ADE</color>
+			<alpha>AA</alpha>
+			<viscosity>0.2</viscosity>
+		</water>
+
+	</pours>
 
 </drinks>

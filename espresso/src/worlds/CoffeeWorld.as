@@ -1,6 +1,7 @@
 package worlds
 {
-	import entities.Pour;
+	import drinks.Mix;
+	import drinks.Pour;
 	
 	import flash.display.BitmapData;
 	
@@ -18,41 +19,23 @@ package worlds
 	
 	public class CoffeeWorld extends World
 	{
-		protected var currentFillLevel:Number;
-		protected var fillVelocity:Number;
-		protected var fillDisplay:Entity;
-		protected var shots:int;
-		protected var partsPerShot:Vector.<int>;
+		protected var currentMix:Mix;
 		
 		
 		public function CoffeeWorld()
 		{
-			currentFillLevel = FP.height;
-			fillVelocity = 0;
 			Input.define("fill", Key.SPACE, Key.Z);
 			Input.define("next", Key.N, Key.ENTER);
-			shots = FP.rand(3) + 1;
-			partsPerShot = new Vector.<int>(shots);
-			for(var i:uint = 0; i < shots; i++)
-			{
-				partsPerShot[i] = FP.rand(2)+1;
-			}
+			currentMix = Assets.CreateMixByID(FP.choose(Assets.Mixes));
+			
 			trace("CoffeeWorld entered.");
-			trace(shots,"shots with a mix of", partsPerShot);
 			super();
 		}
 		
 		public override function begin():void
 		{
-			fillDisplay = new Entity(0,FP.height,new Image(new BitmapData(FP.width, FP.height, true, 0xcc54461e)));
-			var lastHeight:uint = FP.height;
-			for(var i:uint = 0; i < shots; i++)
-			{
-				addGraphic(new Stamp(new BitmapData(FP.width,3,true,0xaa000000)),1,0,lastHeight - partsPerShot[i] * C.HEIGHT_SHOT - 1);
-				lastHeight -= partsPerShot[i] * C.HEIGHT_SHOT;
-			}
-			//add(fillDisplay);
-			V.SetActivePour(Pour(add(Assets.CreatePourByID(FP.choose(Assets.DRINKS),0))));
+			currentMix.createMixGuides(this);
+			V.SetActivePour(Pour(add(currentMix.getNextPour())));
 			super.begin();
 		}
 		
@@ -71,8 +54,15 @@ package worlds
 					V.ActivePour.endPour();
 					
 					// Now, we need to add our next Pour.
-					var newPour:Pour = Pour(add(Assets.CreatePourByID(FP.choose(Assets.DRINKS),0,V.ActivePour)));
-					V.SetActivePour(newPour);
+					if (currentMix.getRemainingPours() > 0)
+					{
+						V.SetActivePour(Pour(add(currentMix.getNextPour())));
+					}
+					else
+					{
+						trace("Pour over.");
+						V.SetActivePour(null);
+					}
 				}
 			}
 			

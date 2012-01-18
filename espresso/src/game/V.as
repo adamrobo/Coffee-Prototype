@@ -1,6 +1,6 @@
 package game
 {
-	import entities.Pour;
+	import drinks.Pour;
 
 	public class V
 	{
@@ -10,7 +10,9 @@ package game
 		{
 			if (V.ActivePour != null) V.ActivePour.setActive(false);
 			V.ActivePour = p;
-			V.ActivePour.setActive(true);
+			if (V.ActivePour != null) V.ActivePour.setActive(true);
 		}
+		
+		public static var pourCount:uint;
 	}
 }
