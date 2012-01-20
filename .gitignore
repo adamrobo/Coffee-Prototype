@@ -3,6 +3,7 @@
 */bin-debug
 
 waveform-generation/flex/bin-debug/*
+
 drink-menu/DrinkMenu.air
 
 drink-menu/.settings/org.eclipse.core.resources.prefs
@@ -14,3 +15,9 @@ drink-menu/.model/DrinkMenu.fml
 drink-menu/.flexProperties
 
 drink-menu/.actionScriptProperties
+
+espresso/.actionScriptProperties
+
+espresso/.project
+
+git ignore
