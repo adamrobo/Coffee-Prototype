@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   width="640"
+					   height="480"
+					   creationComplete="windowedapplication1_creationCompleteHandler(event)"
+					   backgroundColor="#39505F"
+					   title="Drink Menu"
+					   showStatusBar="false">
+
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+	<fx:Style source="DrinkMenu.css"/>
+
+	<fx:Script>
+		<![CDATA[
+			import drinks.Pour;
+			
+			import flash.events.Event;
+			
+			import mx.collections.ArrayList;
+			import mx.events.FlexEvent;
+			
+			[Bindable]
+			private var pours:ArrayList;
+			
+			[Bindable]
+			private var nativeMenu:NativeMenu;
+			
+			private var file:File;
+			
+			[Bindable]
+			private var drinksXML:XML;
+
+			protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
+			{
+				// Create our NativeMenu (Mac only!)
+				if (NativeApplication.supportsMenu)
+				{
+					nativeMenu = new NativeMenu();
+					var sm:NativeMenu;
+					
+					// Set our main dialog items.
+					sm = new NativeMenu();
+					sm.addItem(createMenuItem("Quit","q",[Keyboard.COMMAND],nativeApplication.exit));
+					nativeMenu.addSubmenu(sm,"");
+					
+					// Set our File menu options.
+					sm = new NativeMenu();
+					sm.addItem(createMenuItem("New Menu","n",[Keyboard.COMMAND]));
+					sm.addItem(createMenuItem("Open Menu...","o",[Keyboard.COMMAND]));
+					nativeMenu.addSubmenu(sm,"File");
+					
+					// Set our Pour menu options.
+					
+					// Set our Mix menu options.
+					
+					// Set our new menu
+					nativeApplication.menu = nativeMenu;
+				}
+				
+				pours = new ArrayList(null);
+				for(var i:uint = 0; i < 1000; i++)
+				{
+					var newColor:uint = i * 16;
+					trace(newColor);
+					pours.addItem(new Pour("Item " + (i + 1), newColor));
+				}
+				poursList.dataProvider = pours;
+			}
+			
+			private function loadXML():void
+			{
+				file = new File();
+				file.addEventListener(Event.SELECT, dirSelected);
+				file.browseForOpen("Select person.xml file");
+			}
+			
+			private function createMenuItem(name:String,key:String = "", modifiers:Array = null, callback:Function = null):NativeMenuItem
+			{
+				var nmi:NativeMenuItem = new NativeMenuItem(name);
+				nmi.keyEquivalent = key;
+				nmi.keyEquivalentModifiers = modifiers;
+				if (callback != null) nmi.addEventListener(Event.SELECT,callback);
+				
+				return nmi;
+			}
+			
+			private function dirSelected(e:Event):void
+			{
+				var fs:FileStream = new FileStream();
+				fs.open(file, FileMode.READ);
+				drinksXML = XML(fs.readUTFBytes(fs.bytesAvailable));
+				fs.close();
+			}
+
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<mx:TabNavigator left="0" top="2" bottom="0" right="0" tabHeight="24" tabOffset="2" paddingTop="0">
+		<s:NavigatorContent label="Pours" width="100%" height="100%">
+			<s:List id="poursList" left="0" top="0" right="0" bottom="0" borderVisible="false" itemRenderer="drinks.PourItemRenderer">
+			</s:List>
+			<s:Button label="New Pour" right="2" cornerRadius="0" width="120" top="-24"/>
+		</s:NavigatorContent>
+		<s:NavigatorContent label="Mixes" left="0" top="0" right="0" bottom="0" width="100%" height="100%">
+			<s:Button label="New Mix" width="120" right="2" top="-24" cornerRadius="0"/>
+		</s:NavigatorContent>
+	</mx:TabNavigator>
+</s:WindowedApplication>

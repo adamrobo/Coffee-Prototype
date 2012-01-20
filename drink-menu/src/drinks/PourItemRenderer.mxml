@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				xmlns:mx="library://ns.adobe.com/flex/mx" 
+				autoDrawBackground="true"
+				click="itemrenderer1_clickHandler(event)">
+	<s:layout>
+		<s:HorizontalLayout verticalAlign="middle"
+							paddingLeft="5" paddingRight="5"
+							paddingTop="5" paddingBottom="5"  />
+	</s:layout>
+	
+	<s:states>
+		<s:State name="normal"/>
+	</s:states>
+	
+
+	<fx:Script>
+		<![CDATA[
+			protected function itemrenderer1_clickHandler(event:MouseEvent):void
+			{
+				trace(data);
+			}
+		]]>
+	</fx:Script>
+	<mx:ColorPicker selectedColor="{data.color}" height="32" width="32"/>
+	<s:Label text="{data.name}" />
+</s:ItemRenderer>
