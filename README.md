@@ -7,7 +7,7 @@ Everything in `/espresso` has been compiled with the Adobe Flex 4 SDK and the Fl
 ### Controls
 
 - **Fill** 		`Space`	`Z`
-- **New Stage** `Enter`	`N`
+- **New Stage (At Score Screen)** `Enter`	`N`
 
 ## Prototype
 
