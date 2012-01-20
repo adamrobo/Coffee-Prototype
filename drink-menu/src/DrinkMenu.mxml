@@ -50,7 +50,7 @@
 					// Set our File menu options.
 					sm = new NativeMenu();
 					sm.addItem(createMenuItem("New Menu","n",[Keyboard.COMMAND]));
-					sm.addItem(createMenuItem("Open Menu...","o",[Keyboard.COMMAND]));
+					sm.addItem(createMenuItem("Open Menu...","o",[Keyboard.COMMAND],loadXML));
 					nativeMenu.addSubmenu(sm,"File");
 					
 					// Set our Pour menu options.
@@ -62,20 +62,14 @@
 				}
 				
 				pours = new ArrayList(null);
-				for(var i:uint = 0; i < 1000; i++)
-				{
-					var newColor:uint = i * 16;
-					trace(newColor);
-					pours.addItem(new Pour("Item " + (i + 1), newColor));
-				}
 				poursList.dataProvider = pours;
 			}
 			
-			private function loadXML():void
+			private function loadXML(e:Event):void
 			{
 				file = new File();
 				file.addEventListener(Event.SELECT, dirSelected);
-				file.browseForOpen("Select person.xml file");
+				file.browseForOpen("Select a drink menu...",[new FileFilter("XML Files",".xml",".xml")]);
 			}
 			
 			private function createMenuItem(name:String,key:String = "", modifiers:Array = null, callback:Function = null):NativeMenuItem
@@ -94,6 +88,11 @@
 				fs.open(file, FileMode.READ);
 				drinksXML = XML(fs.readUTFBytes(fs.bytesAvailable));
 				fs.close();
+				
+				for each(var o:XML in drinksXML.pours.elements())
+				{
+					pours.addItem(new Pour(o.name(), uint("0x"+o.color)));
+				}
 			}
 
 		]]>
