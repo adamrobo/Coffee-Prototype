@@ -17,12 +17,21 @@
 
 	<fx:Script>
 		<![CDATA[
+			import mx.events.ColorPickerEvent;
 			protected function itemrenderer1_clickHandler(event:MouseEvent):void
 			{
 				trace(data);
 			}
+
+			protected function colorpicker1_changeHandler(event:ColorPickerEvent):void
+			{
+				// TODO Auto-generated method stub
+				trace("Color changed to #" + Pour.decimalToHexString(colorPicker.selectedColor,'000000'));
+				data.color = colorPicker.selectedColor;
+			}
+
 		]]>
 	</fx:Script>
-	<mx:ColorPicker selectedColor="{data.color}" height="32" width="32"/>
+	<mx:ColorPicker id="colorPicker" selectedColor="{data.color}" height="32" width="32" change="colorpicker1_changeHandler(event)"/>
 	<s:Label text="{data.name}" />
 </s:ItemRenderer>

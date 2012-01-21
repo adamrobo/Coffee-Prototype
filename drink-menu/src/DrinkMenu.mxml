@@ -21,6 +21,7 @@
 			import flash.events.Event;
 			
 			import mx.collections.ArrayList;
+			import mx.events.FileEvent;
 			import mx.events.FlexEvent;
 			
 			[Bindable]
@@ -33,6 +34,8 @@
 			
 			[Bindable]
 			private var drinksXML:XML;
+			
+			private var currentFile:File;
 
 			protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
 			{
@@ -51,6 +54,9 @@
 					sm = new NativeMenu();
 					sm.addItem(createMenuItem("New Menu","n",[Keyboard.COMMAND]));
 					sm.addItem(createMenuItem("Open Menu...","o",[Keyboard.COMMAND],loadXML));
+					sm.addItem(new NativeMenuItem("",true));
+					sm.addItem(createMenuItem("Save","s",[Keyboard.COMMAND],saveXML));
+					sm.addItem(createMenuItem("Save As...","S",[Keyboard.COMMAND],saveXMLAs));
 					nativeMenu.addSubmenu(sm,"File");
 					
 					// Set our Pour menu options.
@@ -68,8 +74,28 @@
 			private function loadXML(e:Event):void
 			{
 				file = new File();
-				file.addEventListener(Event.SELECT, dirSelected);
-				file.browseForOpen("Select a drink menu...",[new FileFilter("XML Files",".xml",".xml")]);
+				file.addEventListener(Event.SELECT, dirSelectedForOpen);
+				file.browseForOpen("Open File",[new FileFilter("XML Files",".xml",".xml")]);
+				currentFile = file;
+			}
+			
+			private function saveXML(e:Event):void
+			{
+				if (currentFile != null)
+				{
+					saveDataToFile(currentFile);
+				}
+				else
+				{
+					saveXMLAs(e);
+				}
+			}
+			
+			private function saveXMLAs(e:Event):void
+			{
+				file = new File();
+				file.addEventListener(Event.SELECT, dirSelectedForSave);
+				file.browseForSave("Save File");
 			}
 			
 			private function createMenuItem(name:String,key:String = "", modifiers:Array = null, callback:Function = null):NativeMenuItem
@@ -82,17 +108,62 @@
 				return nmi;
 			}
 			
-			private function dirSelected(e:Event):void
+			private function dirSelectedForOpen(e:Event):void
 			{
 				var fs:FileStream = new FileStream();
 				fs.open(file, FileMode.READ);
 				drinksXML = XML(fs.readUTFBytes(fs.bytesAvailable));
 				fs.close();
 				
+				var outputString:String = '<?xml version="1.0" encoding="utf-8"?>\n';
+				outputString += drinksXML.toXMLString();
+				outputString = outputString.replace(/\n/g, File.lineEnding);
+				trace(outputString);
+				
 				for each(var o:XML in drinksXML.pours.elements())
 				{
-					pours.addItem(new Pour(o.name(), uint("0x"+o.color)));
+					pours.addItem(new Pour(o.name(), o.name, Number(o.viscosity), uint("0x"+o.color), uint("0x"+o.alpha)));
 				}
+			}
+			
+			private function saveDataToFile(outputFile:File):void
+			{
+				var xmlData:XML;
+				var fs:FileStream;
+				var outputString:String;
+				
+				currentFile = outputFile;
+				
+				xmlData = new XML(<drinks/>);
+				
+				for (var i:uint = 0; i < pours.length; i++)
+				{
+					var p:Pour = Pour(pours.getItemAt(i));
+					if (p != null)
+					{
+						xmlData.pours[p.id].name = p.name;
+						xmlData.pours[p.id].viscosity = p.viscosity;
+						xmlData.pours[p.id].color = Pour.decimalToHexString(p.color,'000000');
+						xmlData.pours[p.id].alpha = Pour.decimalToHexString(p.alpha,'00');
+					}
+				}
+				
+				
+				fs = new FileStream();
+				
+				outputString = '<?xml version="1.0" encoding="utf-8"?>\n';
+				outputString += xmlData.toXMLString();
+				outputString = outputString.replace(/\n/g, File.lineEnding);
+				
+				fs.open(outputFile, FileMode.WRITE);
+				fs.writeUTFBytes(outputString);
+				
+				fs.close();
+			}
+			
+			private function dirSelectedForSave(e:Event):void
+			{
+				saveDataToFile(file);
 			}
 
 		]]>
