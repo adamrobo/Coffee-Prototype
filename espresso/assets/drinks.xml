@@ -4,6 +4,47 @@
 
 	<mixes>
 
+		<smallCoffee>
+			<name>Small Coffee</name>
+			<pour shots="2">coffee</pour>
+		</smallCoffee>
+
+		<mediumCoffee>
+			<name>Medium Coffee</name>
+			<pour shots="4">coffee</pour>
+		</mediumCoffee>
+
+		<largeCoffee>
+			<name>Large Coffee</name>
+			<pour shots="6">coffee</pour>
+		</largeCoffee>
+
+		<extraLargeCoffee>
+			<name>Extra Large Coffee</name>
+			<pour shots="8">coffee</pour>
+		</extraLargeCoffee>
+
+		<smallCoffeeToGo>
+			<name>Small Coffee To Go</name>
+			<pour shots="2.3">coffee</pour>
+		</smallCoffeeToGo>
+
+		<mediumCoffeeToGo>
+			<name>Medium Coffee To Go</name>
+			<pour shots="4.5">coffee</pour>
+		</mediumCoffeeToGo>
+
+		<largeCoffeeToGo>
+			<name>Large Coffee To Go</name>
+			<pour shots="6.7">coffee</pour>
+		</largeCoffeeToGo>
+
+		<extraLargeCoffeeToGo>
+			<name>Extra Large Coffee To Go</name>
+			<pour shots="7.8">coffee</pour>
+		</extraLargeCoffeeToGo>
+
+<!--
 		<ristretto>
 			<name>Ristretto</name>
 			<pour shots="0.75">espresso</pour>
@@ -36,10 +77,18 @@
 			<pour shots="4">cream</pour>
 			<pour shots="2">foam</pour>
 		</caffeLatte>
+-->
 
 	</mixes>
 
 	<pours>
+
+		<coffee>
+			<name>Coffee</name>
+			<color>4D361F</color>
+			<alpha>AA</alpha>
+			<viscosity>0.2</viscosity>
+		</coffee>
 
 		<espresso>
 			<name>Espresso</name>

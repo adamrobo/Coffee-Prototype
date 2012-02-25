@@ -7,9 +7,9 @@ public class C
 	public static const ENTRY:Class = CoffeeWorld;
 	
 	// Physics
-	public static const A_FILL:Number = 500;
-	public static const V_MAX_FILL:Number = 140;
-	public static const DAMPING_FILL:Number = 0.1;
+	public static const A_FILL:Number = 325;
+	public static const V_MAX_FILL:Number = 1050;
+	public static const DAMPING_FILL:Number = 0.08;
 	public static const V_FILL_CLAMP:Number = 0.2;
 	
 	// Gameplay
